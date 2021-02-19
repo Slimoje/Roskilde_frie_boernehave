@@ -8,4 +8,12 @@ public class WorkHours {
     public WorkHours(ArrayList<Day> list) {
         days = list;
     }
+
+    public void setDays(ArrayList<Day> days) {
+        this.days = days;
+    }
+
+    public ArrayList<Day> getDays() {
+        return days;
+    }
 }

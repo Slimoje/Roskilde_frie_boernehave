@@ -28,5 +28,7 @@ public class Day {
     public int getEnd() {
         return end;
     }
+
+
     
 }
