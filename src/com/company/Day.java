@@ -12,4 +12,21 @@ public class Day {
         this.start = start;
         this.end = end;
     }
+
+    public int getDate() {
+        return date;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+    
 }
