@@ -11,4 +11,20 @@ public class Year {
     public String toString(){
         return "";
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public Week[] getWeeks() {
+        return weeks;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setWeeks(Week[] weeks) {
+        this.weeks = weeks;
+    }
 }
