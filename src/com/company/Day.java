@@ -1,13 +1,13 @@
 package com.company;
 
 public class Day {
-    String weekday;
+    String weekDay;
     int date;
     int start;
     int end;
 
     public Day(String day, int date, int start, int end) {
-        this.weekday = day;
+        this.weekDay = day;
         this.date = date;
         this.start = start;
         this.end = end;
@@ -18,7 +18,7 @@ public class Day {
     }
 
     public String getDay() {
-        return day;
+        return weekDay;
     }
 
     public int getStart() {
