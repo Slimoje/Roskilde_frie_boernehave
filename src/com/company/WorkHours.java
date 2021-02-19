@@ -16,6 +16,4 @@ public class WorkHours {
     public void setDays(ArrayList<Day> days) {
         this.days = days;
     }
-
-
 }
