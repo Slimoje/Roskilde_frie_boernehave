@@ -4,26 +4,26 @@ import java.util.ArrayList;
 
 public class Week {
     int week;
-    ArrayList<Employee> employees;
+    ArrayList<WorkHours> workHourList;
 
-    public Week(int week, ArrayList<Employee> list) {
+    public Week(int week, ArrayList<WorkHours> list) {
         this.week = week;
-        employees = list;
+        this.workHourList = list;
     }
 
     public int getWeek() {
         return week;
     }
 
-    public ArrayList<Employee> getEmployees() {
-        return employees;
+    public ArrayList<WorkHours> getWorkHourList() {
+        return workHourList;
     }
 
     public void setWeek(int week) {
         this.week = week;
     }
 
-    public void setEmployees(ArrayList<Employee> employees) {
-        this.employees = employees;
+    public void setWorkHourList(ArrayList<WorkHours> workHourList) {
+        this.workHourList = workHourList;
     }
 }
