@@ -6,6 +6,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        
+        /* The following two lines instantiates a new ArrayList of Employees,
+         * and populates it with five hardcoded Employee-objects. */
+        ArrayList<Employee> employees = new ArrayList<>();
+        addHardcodedEmployees(employees);
+        
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
         Scanner console = new Scanner(System.in);
@@ -133,6 +139,26 @@ public class Main {
                     break;
             }
         }
+    }
+    
+    /* The method takes an ArrayList of Employees and adds five hardcoded Employee objects to it. */
+    public static void addHardcodedEmployees(ArrayList<Employee> employees){
+        Employee e1 = new Employee("Sandra Madsen", "Bogkjærvej 17", 61235234, "mail@111.dk",
+                543415, 1001, true, "Administrationen");
+        Employee e2 = new Employee("Josefine Clausen", "Engehøjgårdsvej 39", 67234789, "mail@222.dk",
+                424751, 1002, false, "Rød stue");
+        Employee e3 = new Employee("Peter Ellehammer", "Konrad Ankersgade 11, 1. th", 34128312, "mail@333.dk",
+                435413, 1003, false, "Blåbærsstuen");
+        Employee e4 = new Employee("Karla Emma Simonsen", "Brombærstrædet 9", 53357141, "mail@333.dk",
+                123443, 1004, false, "Blåbærstuen");
+        Employee e5 = new Employee("Johanne Marie Smith Nørgaard", "Højøvej 1", 43212389, "mail@555.dk",
+                345142, 1005, false, "Rød stue");
+
+        employees.add(e1);
+        employees.add(e2);
+        employees.add(e3);
+        employees.add(e4);
+        employees.add(e5);
     }
 }
 
