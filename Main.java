@@ -1,16 +1,18 @@
 package com.company;
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         /* The following two lines instantiates a new ArrayList of Employees,
          * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
-        addHardcodedEmployees(employees);
+        FileHandler.loadFromFile(employees);
 
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
@@ -66,7 +68,7 @@ public class Main {
 
 
     //DENNE MENU KAN KUN BLIVE ACCESSED VIA ADMIN LOGIN
-    public static void adminMenu(Scanner console, ArrayList<Employee> employees) {
+    public static void adminMenu(Scanner console, ArrayList<Employee> employees) throws FileNotFoundException {
 
         int answer = 1;
         System.out.println("Tryk 1 for at vise en liste over børn");
@@ -99,7 +101,8 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("Sike, thats the wrong NUMBER");
+                    System.out.println("Liste over ansatte:");
+                    printEmployees(employees);
                     break;
                 default:
                     //System.out.println("Forkert input");
@@ -109,7 +112,7 @@ public class Main {
     }
 
     //DENNE MENU KAN KUN BLIVE ACCESED VIA STAFFLOGIN
-    public static void staffMenu(Scanner console) {
+    public static void staffMenu(Scanner console) throws FileNotFoundException{
 
         int answer = 1;
         System.out.println("Tryk 1 for at vise en liste over børn");
@@ -199,16 +202,16 @@ public class Main {
             System.out.println("|---------------+--------------+-----------+-----------+-----------+------------+-----------+-----------|");
 
         }
-        //System.out.println("| " + employees.get(1).getName() + "             |           |           |           |            |           |           |");
-        //System.out.println("|---------------+--------------+-----------+-----------+-----------+------------+-----------+-----------|");
-        //System.out.println("| " + employees.get(2).getName() + "             |           |           |           |            |           |           |");
-        //System.out.println("|---------------+--------------+-----------+-----------+-----------+------------+-----------+-----------|");
-        //System.out.println("| " + employees.get(3).getName() + "          |           |           |           |            |           |           |");
-        //System.out.println("|---------------+--------------+-----------+-----------+-----------+------------+-----------+-----------|");
-        //System.out.println("| " + employees.get(4).getName() + " |           |           |           |            |           |           |");
-        //System.out.println("|---------------+--------------+-----------+-----------+-----------+------------+-----------+-----------|");
+    }
+
+    public static void printEmployees(ArrayList<Employee> employees){
+
+            for(int i = 0;  i < employees.size(); i++) {
+                System.out.println((1+i) + employees.get(i).getName() + ", " + employees.get(i).getAddress() + ", Tlf: " +
+                                    employees.get(i).getPhoneNumber() + ", " + employees.get(i).getEmail() + ", CPR: " +
+                                    employees.get(i).getSsn() + ", ID: " + employees.get(i).getEmployeeID() + ", Afdeling: " +
+                                    employees.get(i).getDepartment());
+            }
 
     }
 }
-
-

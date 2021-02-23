@@ -1,0 +1,7 @@
+Sandra Madsen;Bogkjærvej 17;61235234;mail@111.dk;543415;1001;true;Administrationen;
+Josefine Clausen;Engehøjgårdsvej 39;67234789;mail@222.dk;424751;1002;false;Rød stue;
+Peter Ellehammer Konrad;Ankersgade 11, 1. th;34128312;mail@333.dk;435413;1003;false;Blåbærsstuen;
+Karla Emma Simonsen;Brombærstrædet 9;53357141;mail@333.dk;123443;1004;false;Blåbærstuen;
+Johanne Marie Smith Nørgaard;Højøvej 1;43212389;mail@555.dk;345142;1005;false;Rød stue;
+Anne Bonnesen;Odensevej 77;45588778;mail@666.dk;44558876;1006;false;Lilla stue;
+Lauritz Mogensen;Møllegården 3;56895645;mail@777.dk;78998745;1007;false;Lilla stue
