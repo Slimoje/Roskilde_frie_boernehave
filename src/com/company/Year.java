@@ -8,8 +8,15 @@ public class Year {
         this.year = year;
         weeks = weekArray;
     }
-    public String toString(){
-        return "";
+
+    public Year(int year){
+        this.year = year;
+        weeks = new Week[52];
+    }
+
+    public Year(){
+        year = 0;
+        weeks = null;
     }
 
     public int getYear() {
@@ -26,5 +33,9 @@ public class Year {
 
     public void setWeeks(Week[] weeks) {
         this.weeks = weeks;
+    }
+
+    public String toString(){
+        return "";
     }
 }
