@@ -179,7 +179,7 @@ public class Main {
         String email = scan.next();
         System.out.println("Indtast ssn: ");
         int ssn = scan.nextInt();
-        int memberID;
+        int memberID = 0;
         for(int i = 0; i < list.size(); i++){
             memberID = list.get(i).employeeID;
             memberID++;
