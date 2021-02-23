@@ -1,8 +1,9 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
+//---
 public class Main {
 
     public static void main(String[] args) {
@@ -160,6 +161,7 @@ public class Main {
         employees.add(e4);
         employees.add(e5);
     }
+
 }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
