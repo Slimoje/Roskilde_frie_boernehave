@@ -1,37 +1,36 @@
 package com.company;
 
-import java.util.ArrayList;
-
 public class WorkHours {
-    int weekNumber;
-    ArrayList<Day> days;
+    Day[] days;
+    int employeeID;
 
-    public WorkHours(int weekNumber, ArrayList<Day> days) {
-        this.weekNumber = weekNumber;
+    public WorkHours(Day[] list) {
+        days = list;
+    }
+
+    public WorkHours(int employeeID){
+        days = new Day[5];
+        this.employeeID = employeeID;
+    }
+
+    public WorkHours(Day[] days, int employeeID){
         this.days = days;
+        this.employeeID = employeeID;
     }
 
-    public int getWeekNumber() {
-        return weekNumber;
-    }
-
-    public ArrayList<Day> getDays() {
+    public Day[] getDays() {
         return days;
     }
 
-    public void setWeekNumber(int weekNumber) {
-        this.weekNumber = weekNumber;
-    }
-
-    public void setDays(ArrayList<Day> days) {
+    public void setDays(Day[] days) {
         this.days = days;
     }
 
-    @Override
-    public String toString() {
-        return "WorkHours{" +
-                "weekNumber=" + weekNumber +
-                ", days=" + days +
-                '}';
+    public int getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(int employeeID) {
+        this.employeeID = employeeID;
     }
 }
