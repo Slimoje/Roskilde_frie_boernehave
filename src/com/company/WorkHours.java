@@ -33,4 +33,14 @@ public class WorkHours {
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
+    
+    public int totalWorkhours(){
+        int total = 0;
+        for(int i = 0; i < days.length; i++){
+            if(days[i] != null) {
+                total += days[i].end - days[i].start;
+            }
+        }
+        return total;
+    }
 }
