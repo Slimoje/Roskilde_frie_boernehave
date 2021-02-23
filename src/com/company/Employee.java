@@ -50,4 +50,9 @@ public class Employee extends Person{
     public String toString(){
         return "";
     }
+    
+    public String toStringFileFormat(){
+        return (name + ";" + address + ";" + phoneNumber + ";" + email + ";" +ssn + ";"
+                + employeeID + ";" + isManager + ";" + department);
+    }
 }
