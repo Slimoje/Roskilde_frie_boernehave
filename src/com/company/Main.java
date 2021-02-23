@@ -8,14 +8,14 @@ public class Main {
     public static void main(String[] args) {
         
         /* The following two lines instantiates a new ArrayList of Employees,
-         * and populates it with five hardcoded Employee-objects. */
+        * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
         addHardcodedEmployees(employees);
         
         /* The following two lines instatniates the Year 2021 and then adds
-         * a hardcoded Week-array to it. Each Week is populated with 
-         * working hours for each Employee, although every week looks similar
-         * Such is the nature of hard-coding. */
+        * a hardcoded Week-array to it. Each Week is populated with 
+        * working hours for each Employee, although every week looks similar
+        * Such is the nature of hard-coding. */
         Year year = new Year(2021);
         addHardcodedWeekToYear(year, employees);
         
@@ -148,6 +148,72 @@ public class Main {
         }
     }
     
+    /* The method takes the ArrayList of employees and the week of choice. It then prints
+    * the working schedule for that week. This is the method that should be called in order
+    * to print the schedule. */
+    public static void printSchedule(ArrayList<Employee> employees, Week week) {
+        System.out.println("                                           uge " + week.getWeek());
+        System.out.println("medarbejdere\\ugedage|   mandag  |  tirsdag  |  onsdag   |  torsdag  |  fredag   |  timetal  ");
+        for(int i = 0; i < employees.size(); i++){
+            Employee emp = employees.get(i);
+            WorkHours wh;
+            for(int j = 0; j < week.getWorkHourList().size(); j++){
+                WorkHours whTemp = week.getWorkHourList().get(j);
+                if(emp.getEmployeeID() == whTemp.getEmployeeID()){
+                    wh = whTemp;
+                    printEmployeeWithWorktime(emp, wh);
+                }
+            }
+        }
+    }
+    
+    /* Method takes an Employee and a WorkHours-object. First a line is printed to seperate the
+    * information from the line above it. It then produces a console output with the
+    * employee's name, and work hours for the corresponding days. It finishes with printing the
+    * total amount of work hours for that week. */
+    public static void printEmployeeWithWorktime(Employee emp, WorkHours wh){
+        separatorlineInSchedule();
+        System.out.print(stringAtCertainLength(emp.getName(), 20));
+        for(int i = 0; i < wh.getDays().length; i++){
+            System.out.print("|");
+            Day day = wh.getDays()[i];
+            if(day == null || (day.getStart() == 0 && day.getEnd() == 0)){
+                System.out.print("    fri    ");
+            }else {
+                String hours = "    " + day.getStart() + "-" + day.getEnd();
+                hours = stringAtCertainLength(hours, 11);
+                System.out.print(hours);
+            }
+        }
+        System.out.print("|");
+        System.out.println("    " + wh.totalWorkhours());
+    }
+    
+    /* Method prints the horizontal line seperator for schedules. */
+    public static void separatorlineInSchedule(){
+        System.out.println("--------------------+-----------+-----------+-----------+-----------+-----------+-----------");
+    }
+    
+    /* Method takes a String and an integer, and returns that String at the length
+    * specified by the integer. If the original String is shorter, the method puts
+    * spaces " " at the end until the desired length is met. If it is longer, the
+    * method returns a substring of the specified length. */
+    public static String stringAtCertainLength(String name, int len){
+        if(name.length() == len){
+            return name;
+        }
+        String nameFormatted = "";
+        if(name.length() < len){
+            nameFormatted = name;
+            while(nameFormatted.length() < len){
+                nameFormatted = nameFormatted + " ";
+            }
+        }else{
+            nameFormatted = name.substring(0, len);
+        }
+        return nameFormatted;
+    }
+    
     /* The method takes an ArrayList of Employees and adds five hardcoded Employee objects to it. */
     public static void addHardcodedEmployees(ArrayList<Employee> employees){
         Employee e1 = new Employee("Sandra Madsen", "Bogkjærvej 17", 61235234, "mail@111.dk",
@@ -169,15 +235,15 @@ public class Main {
     }
     
     /* The method takes a Year-object and an ArrayList of Employee-objects. A prerequisite for this
-     * method to work optimally is to have 5 Employee-object in the ArrayList. In a for-loop traversing
-     * the length of the Week[] in the year, the method generates working hours for each employee and
-     * and adds to the corresponing Week giving along with the week's number. First the method makes five 
-     * Day-objects with times for when the shift starts and ends. Then it creates a Day-array with those five 
-     * Days. It then instantiates a WorkHours-object with the Day-array and employeeID from the first
-     * Employee in the list. This it does for all five employees in the list. It then creates an
-     * ArrayList for WorkHours and add these five WorkHours-objects. A Week-object is instantiated, with the
-     * correct week number and the WorkHours-ArrayList, and the put into the corresponding position of
-     * in the Year-object. */
+    * method to work optimally is to have 5 Employee-object in the ArrayList. In a for-loop traversing
+    * the length of the Week[] in the year, the method generates working hours for each employee and
+    * and adds to the corresponing Week giving along with the week's number. First the method makes five 
+    * Day-objects with times for when the shift starts and ends. Then it creates a Day-array with those five 
+    * Days. It then instantiates a WorkHours-object with the Day-array and employeeID from the first
+    * Employee in the list. This it does for all five employees in the list. It then creates an
+    * ArrayList for WorkHours and add these five WorkHours-objects. A Week-object is instantiated, with the
+    * correct week number and the WorkHours-ArrayList, and the put into the corresponding position of
+    * in the Year-object. */
     public static void addHardcodedWeekToYear(Year year, ArrayList<Employee> employees){
         for(int i = 0; i < year.getWeeks().length; i++) {
             Day d01 = new Day(8, 16);
