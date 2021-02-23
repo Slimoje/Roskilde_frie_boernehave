@@ -232,6 +232,19 @@ public class Main {
             year.getWeeks()[i] = w;
         }
     }
+    
+    public static Employee employeesList(ArrayList<Employee> employees, Scanner console){
+        System.out.println("Hvilken medarbejder vil du redigere vagter for?");
+        for (int i = 0; i < employees.size(); i++){
+            System.out.println("("+(1+i)+") "+employees.get(i).name);
+        }
+        System.out.println("(0)"+" Tilbage til admin-menuen");
+        int ch = console.nextInt();
+        if (ch == 0){
+            adminMenu(employees, console);
+        }
+        return (employees.get(ch-1));
+    }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
 /*
