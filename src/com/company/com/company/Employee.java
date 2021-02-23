@@ -2,16 +2,14 @@ package com.company;
 
 public class Employee extends Person{
     int ssn;
-    WorkHours[] workHours;
     int employeeID;
     boolean isManager;
     String department;
 
     public Employee(String name, String address, int phoneNumber, String email,
-                    int ssn, WorkHours[] workHours, int employeeID, boolean isManager, String department){
+                    int ssn, int employeeID, boolean isManager, String department){
         super(name, address, phoneNumber, email);
         this.ssn = ssn;
-        this.workHours = workHours;
         this.employeeID = employeeID;
         this.isManager = isManager;
         this.department = department;
@@ -19,10 +17,6 @@ public class Employee extends Person{
 
     public int getSsn() {
         return ssn;
-    }
-
-    public WorkHours[] getWorkHours() {
-        return workHours;
     }
 
     public int getEmployeeID() {
@@ -41,10 +35,6 @@ public class Employee extends Person{
         this.ssn = ssn;
     }
 
-    public void setWorkHours(WorkHours[] workHours) {
-        this.workHours = workHours;
-    }
-
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
@@ -57,7 +47,15 @@ public class Employee extends Person{
         this.department = department;
     }
 
-    public String toString(){
-        return "";
+    public String toString() {
+        return "Navn: "+name+
+                "\nAdresse: "+address+
+                "\nTelefonnummer: "+phoneNumber+
+                "\nEmail: "+email+
+                "\nCPR: "+ssn+
+                "\nMedarbejder ID: "+employeeID+
+                "\nManagerrettigheder: "+isManager+
+                "\nAfdeling: "+department+
+                "\n-------------------------------\n";
     }
 }

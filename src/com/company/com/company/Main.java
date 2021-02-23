@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -9,10 +10,17 @@ public class Main {
         
         /* The following two lines instantiates a new ArrayList of Employees,
          * and populates it with five hardcoded Employee-objects. */
+        Scanner scan = new Scanner(System.in);
         ArrayList<Employee> employees = new ArrayList<>();
         addHardcodedEmployees(employees);
+
+        System.out.println(employees);
+
+        createEmployee(scan, employees);
+
+        System.out.println(employees);
         
-        HashMap<String, String> loginInfo = new HashMap<>();
+        /*HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
         Scanner console = new Scanner(System.in);
         loginInfo.put("pungrotten69", "xd");
@@ -61,7 +69,7 @@ public class Main {
                     //System.out.println("Forkert input, prøv igen!");
                 break;
             }
-        }
+        }*/
     }
 
 
@@ -160,6 +168,36 @@ public class Main {
         employees.add(e4);
         employees.add(e5);
     }
+    public static void createEmployee(Scanner scan, ArrayList<Employee> list){
+        System.out.println("Indtast navn: ");
+        String name = scan.nextLine();
+        System.out.println("Indtast adresse: ");
+        String address = scan.nextLine();
+        System.out.println("Indtast telefon nummer: ");
+        int phoneNumber = scan.nextInt();
+        System.out.println("Indtast email: ");
+        String email = scan.next();
+        System.out.println("Indtast ssn: ");
+        int ssn = scan.nextInt();
+        int memberID;
+        for(int i = 0; i < list.size(); i++){
+            memberID = list.get(i).employeeID;
+            memberID++;
+        }
+        System.out.println("Skal den nye medarbejder have manager rettigheder? Indtast Ja/Nej: ");
+        String choice = scan.next();
+        boolean isManager;
+        if(choice.equalsIgnoreCase("ja")){
+            isManager = true;
+        }else{
+            isManager = false;
+        }
+        System.out.println("Indtast afdeling: ");
+        String department = scan.next();
+        Employee newEmployee = new Employee(name, address, phoneNumber, email, ssn, memberID, isManager, department);
+        list.add(newEmployee);
+    }
+
 }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
