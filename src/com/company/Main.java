@@ -298,7 +298,38 @@ public class Main {
             year.getWeeks()[i] = w;
         }
     }
-    
+    public static void createEmployee(Scanner scan, ArrayList<Employee> list, Year year){
+        System.out.println("Indtast navn: ");
+        String name = scan.nextLine();
+        System.out.println("Indtast adresse: ");
+        String address = scan.nextLine();
+        System.out.println("Indtast telefon nummer: ");
+        int phoneNumber = scan.nextInt();
+        System.out.println("Indtast email: ");
+        String email = scan.next();
+        System.out.println("Indtast ssn: ");
+        int ssn = scan.nextInt();
+        int empID = 0;
+        for(int i = 0; i < list.size(); i++){
+            empID = list.get(i).employeeID;
+            empID++;
+        }
+        System.out.println("Skal den nye medarbejder have manager rettigheder? Indtast Ja/Nej: ");
+        String choice = scan.next();
+        boolean isManager;
+        if(choice.equalsIgnoreCase("ja")){
+            isManager = true;
+        }else{
+            isManager = false;
+        }
+        System.out.println("Indtast afdeling: ");
+        String department = scan.next();
+        Employee newEmployee = new Employee(name, address, phoneNumber, email, ssn, empID, isManager, department);
+        list.add(newEmployee);
+        for(int i=0;i<year.getWeeks().length;i++){
+            year.getWeeks()[i].getWorkHourList().add(new WorkHours(empID));
+        }
+    }
     public static Employee employeesList(ArrayList<Employee> employees, Scanner console){
         System.out.println("Hvilken medarbejder vil du redigere vagter for?");
         for (int i = 0; i < employees.size(); i++){
