@@ -9,7 +9,7 @@ public class WorkHours {
     }
 
     public WorkHours(int employeeID){
-        days = new Day[5];
+        days = emptyDayArray();
         this.employeeID = employeeID;
     }
 
@@ -42,5 +42,9 @@ public class WorkHours {
             }
         }
         return total;
+    }
+    private Day[] emptyDayArray(){
+        Day[] days = {new Day(), new Day(), new Day(), new Day(), new Day()};
+        return days;
     }
 }
