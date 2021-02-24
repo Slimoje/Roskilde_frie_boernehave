@@ -10,14 +10,14 @@ public class Main {
         /* The following two lines instantiates a new ArrayList of Employees,
          * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
-        addHardcodedEmployees(employees);
+        FileHandler.loadEmployees(employees);
 
         /* The following two lines instatniates the Year 2021 and then adds
          * a hardcoded Week-array to it. Each Week is populated with
          * working hours for each Employee, although every week looks similar
          * Such is the nature of hard-coding. */
         Year year = new Year(2021);
-        addHardcodedWeekToYear(year, employees);
+        FileHandler.loadWorkHours(year);
 
         Scanner console = new Scanner(System.in);
         loginMenu(employees, year, console);
@@ -409,77 +409,8 @@ public class Main {
         }
         return (employees.get(ch-1));
     }
-    public static void saveWorkHours(Year year, ArrayList<Employee> list)throws FileNotFoundException {
-        PrintStream output = new PrintStream(new File("Workhours.txt"));
-        for(int i = 0; i < year.getWeeks().length; i++){
-            Week w = year.getWeeks()[i];
-            output.print("Week:"+w.week+":");
-            for(int j = 0; j < w.getWorkHourList().size(); j++){
-                for(int k = 0; k < list.size(); k++){
-                    if(w.getWorkHourList().get(j).employeeID == list.get(k).employeeID) {
-                        output.print("EmployeeID:"+list.get(k).employeeID + ":");
-                        for (int l = 0; l < w.getWorkHourList().get(j).getDays().length; l++){
-                            if (w.getWorkHourList().get(j).getDays()[l].getStart() != 0) {
-                                output.print(w.getWorkHourList().get(j).getDays()[l].start + ":");
-                            } else {
-                                output.print("0:");
-                            }
-                            if (w.getWorkHourList().get(j).getDays()[l].getEnd() != 0) {
-                            output.print(w.getWorkHourList().get(j).getDays()[l].end+":");
-                            } else {
-                            output.print("0:");
-                            }
-                        }
-                    }
-                }
-            }
-            output.println();
-        }
-    }
-    public static void loadWorkHours(Year year)throws FileNotFoundException{
-        File workHours = new File(("Workhours.txt"));
-        int week = 0;
-        if(workHours.exists()){
-            Scanner scan = new Scanner(workHours);
-            while(scan.hasNextLine()){
-                ArrayList<WorkHours> workhours = new ArrayList<>();
-                Scanner line = new Scanner(scan.nextLine());
-                line.useDelimiter(":");
-                if(line.next().equals("Week")){
-                    week = line.nextInt();
-                }while (line.hasNext()) {
-                    if(line.next().equals("EmployeeID")) {
-                        int employeeID = line.nextInt();
-                        int startMonday = line.nextInt();
-                        int endMonday = line.nextInt();
-                        int startTuesday = line.nextInt();
-                        int endTuesday = line.nextInt();
-                        int startWednesday = line.nextInt();
-                        int endWednesday = line.nextInt();
-                        int startThursday = line.nextInt();
-                        int endThursday = line.nextInt();
-                        int startFriday = line.nextInt();
-                        int endFriday = line.nextInt();
-
-                        Day monday = new Day(startMonday, endMonday);
-                        Day tuesday = new Day(startTuesday, endTuesday);
-                        Day wednesday = new Day(startWednesday, endWednesday);
-                        Day thursday = new Day(startThursday, endThursday);
-                        Day friday = new Day(startFriday, endFriday);
-                        Day[] days = {monday, tuesday, wednesday, thursday, friday};
-
-                        WorkHours newWorkHours = new WorkHours(days, employeeID);
-                        workhours.add(newWorkHours);
-                    }
-                }
-                Week newWeek = new Week(week, workhours);
-                year.getWeeks()[week - 1] = newWeek;
-            }
-        }
-    }
-    public static void editSchedule(Scanner scan, Year year, ArrayList<Employee> list){
-        System.out.println("Indtast nummer for den uge du vil redigere:");
-        int weekNumber = scan.nextInt();
+    
+    public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list){
         for(int i=0;i<list.size();i++){
             System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
         }
