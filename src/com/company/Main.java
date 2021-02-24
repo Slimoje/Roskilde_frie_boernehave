@@ -5,19 +5,13 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException{
         
-        /* The following two lines instantiates a new ArrayList of Employees,
-        * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
-        addHardcodedEmployees(employees);
+        FileHandler.loadEmployees(employees);
         
-        /* The following two lines instatniates the Year 2021 and then adds
-        * a hardcoded Week-array to it. Each Week is populated with 
-        * working hours for each Employee, although every week looks similar
-        * Such is the nature of hard-coding. */
         Year year = new Year(2021);
-        addHardcodedWeekToYear(year, employees);
+        FileHandler.loadWorkHours(year);
         
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
