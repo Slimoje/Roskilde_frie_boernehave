@@ -92,7 +92,7 @@ public class Main {
             System.out.println("Tryk 1 for at vise en liste over børn");
             System.out.println("Tryk 2 for vagtplan");
             System.out.println("Tryk 3 for at vise telefonlisten");
-            System.out.println("Tryk 4 for at vise listen over ansatte");
+            System.out.println("Tryk 4 for medarbejdermenu");
             System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
 
@@ -110,7 +110,65 @@ public class Main {
                     break;
 
                 case 4:
-                    System.out.println("Sike, thats the wrong NUMBER");
+                    boolean keepGoing = true;
+                    while(keepGoing){
+                        System.out.println("Tryk 1 for at vise medarbejdere");
+                        System.out.println("Tryk 2 for at oprette en ny medarbejder");
+                        System.out.println("Tryk 3 for at redigere en medarbejder");
+                        System.out.println("Tryk 4 for at slette en medarbejder");
+                        System.out.println("Tryk 0 for at returnere til hovedmenu");
+                        int valg = console.nextInt();
+                        switch(valg){
+                            case 1:
+                                for(int i=0;i<employees.size();i++){
+                                    System.out.println("Medarbejdernummer: "+employees.get(i).employeeID+" - "+employees.get(i).name+".");
+                                }
+                                System.out.println("Indtast medarbejdernummer for den medarbejder du vil se informationerne på: ");
+                                int empID = console.nextInt();
+                                for(int i=0;i<employees.size();i++){
+                                    if(empID==employees.get(i).employeeID){
+                                        System.out.println(employees.get(i));
+                                        break;
+                                    }
+                                }
+                                break;
+                            case 2:
+                                createEmployee(employees, year);
+                                System.out.println("Medarbejderen er oprettet.");
+                                break;
+                            case 3:
+                                System.out.println("Denne funktion forventes færdiggjort kort efter første indbetaling.");
+                                break;
+                            case 4:
+                                for(int i=0;i<employees.size();i++){
+                                    System.out.println("Medarbejdernummer: "+employees.get(i).employeeID+" - "+employees.get(i).name+".");
+                                }
+                                System.out.println("Indtast medarbejdernummer for den medarbejder du vil slette.");
+                                empID = console.nextInt();
+                                boolean foundEmpID = false;
+                                for(int i=0;i<employees.size();i++){
+                                    if(empID==employees.get(i).employeeID){
+                                        System.out.println(employees.get(i).name+" er slettet.");
+                                        employees.remove(i);
+                                        foundEmpID = true;
+                                        break;
+                                    }
+                                }
+                                if(!foundEmpID){
+                                    System.out.println("Der er ingen medarbejder med dette medarbejdernummer.");
+                                }
+                                break;
+                            case 0:
+                                System.out.println("Returnerer til hovedmenu.");
+                                keepGoing = false;
+                                break;
+                            default:
+                                System.out.println("Dette er ikke en mulighed.");
+                                break;
+                        }
+                    }
+                    break;
+                case 0:
                     break;
                 default:
                     //System.out.println("Forkert input");
@@ -280,7 +338,8 @@ public class Main {
         }
         return nameFormatted;
     }
-    public static void createEmployee(Scanner scan, ArrayList<Employee> list, Year year){
+    public static void createEmployee(ArrayList<Employee> list, Year year){
+        Scanner scan = new Scanner(System.in);
         System.out.println("Indtast navn: ");
         String name = scan.nextLine();
         System.out.println("Indtast adresse: ");
@@ -312,19 +371,6 @@ public class Main {
             year.getWeeks()[i].getWorkHourList().add(new WorkHours(empID));
         }
     }
-    public static Employee employeesList(ArrayList<Employee> employees, Scanner console){
-        System.out.println("Hvilken medarbejder vil du redigere vagter for?");
-        for (int i = 0; i < employees.size(); i++){
-            System.out.println("("+(1+i)+") "+employees.get(i).name);
-        }
-        System.out.println("(0)"+" Tilbage til admin-menuen");
-        int ch = console.nextInt();
-        if (ch == 0){
-            adminMenu(employees, console);
-        }
-        return (employees.get(ch-1));
-    }
-    
     public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list){
         for(int i=0;i<list.size();i++){
             System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
