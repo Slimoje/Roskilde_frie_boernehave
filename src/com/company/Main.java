@@ -338,6 +338,47 @@ public class Main {
             output.println();
         }
     }
+    public static void loadWorkHours(Year year)throws FileNotFoundException{
+        File workHours = new File(("Workhours.txt"));
+        int week = 0;
+        if(workHours.exists()){
+            Scanner scan = new Scanner(workHours);
+            while(scan.hasNextLine()){
+                ArrayList<WorkHours> workhours = new ArrayList<>();
+                Scanner line = new Scanner(scan.nextLine());
+                line.useDelimiter(":");
+                if(line.next().equals("Week")){
+                    week = line.nextInt();
+                }while (line.hasNext()) {
+                    if(line.next().equals("EmployeeID")) {
+                        int employeeID = line.nextInt();
+                        int startMonday = line.nextInt();
+                        int endMonday = line.nextInt();
+                        int startTuesday = line.nextInt();
+                        int endTuesday = line.nextInt();
+                        int startWednesday = line.nextInt();
+                        int endWednesday = line.nextInt();
+                        int startThursday = line.nextInt();
+                        int endThursday = line.nextInt();
+                        int startFriday = line.nextInt();
+                        int endFriday = line.nextInt();
+
+                        Day monday = new Day(startMonday, endMonday);
+                        Day tuesday = new Day(startTuesday, endTuesday);
+                        Day wednesday = new Day(startWednesday, endWednesday);
+                        Day thursday = new Day(startThursday, endThursday);
+                        Day friday = new Day(startFriday, endFriday);
+                        Day[] days = {monday, tuesday, wednesday, thursday, friday};
+
+                        WorkHours newWorkHours = new WorkHours(days, employeeID);
+                        workhours.add(newWorkHours);
+                    }
+                }
+                Week newWeek = new Week(week, workhours);
+                year.getWeeks()[week - 1] = newWeek;
+            }
+        }
+    }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
 /*
