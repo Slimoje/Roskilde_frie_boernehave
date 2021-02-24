@@ -74,39 +74,32 @@ public class Main {
 
 
     //DENNE MENU KAN KUN BLIVE ACCESSED VIA ADMIN LOGIN
-    public static void adminMenu(Scanner console){
+    public static void adminMenu(Scanner console) {
 
         int answer = 1;
         System.out.println("Tryk 1 for at vise en liste over børn");
-        System.out.println("Tryk 2 for at vise vagtplanen");
-        System.out.println("Tryk 3 for at lave vagtplanen");
-        System.out.println("Tryk 4 for at vise telefonlisten");
-        System.out.println("Tryk 5 for at vise listen over ansatte");
+        System.out.println("Tryk 2 for vagtplan");
+        System.out.println("Tryk 3 for at vise telefonlisten");
+        System.out.println("Tryk 4 for at vise listen over ansatte");
         System.out.println("Tryk 0 for at exitte menuen");
 
-        while (answer != 0){
+        while (answer != 0) {
             answer = console.nextInt();
 
-            switch (answer){
+            switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
 
                 case 2:
-                    System.out.println("Du har valgt at vise vagtplanen");
-                    //METODE FOR AT VISE VAGTPLANEN
+                    scheduleMenu(console, employees, year);
                     break;
 
                 case 3:
-                    System.out.println("Du har valgt at lave vagtplanen");
-                    //METODE FOR AT ÆNDRER I VAGTPLANEN
-                    break;
-
-                case 4:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
 
-                case 5:
+                case 4:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
                 default:
@@ -115,6 +108,7 @@ public class Main {
             }
         }
     }
+    
     //DENNE MENU KAN KUN BLIVE ACCESED VIA STAFFLOGIN
     public static void staffMenu(Scanner console){
 
@@ -146,6 +140,66 @@ public class Main {
                     break;
             }
         }
+    }
+    
+    public static void scheduleMenu(Scanner console, ArrayList<Employee> employees, Year year){
+        //Der skal lige oprettes en menu her. Indtil videre er dette her en forløber
+        //på "se og rediger.
+        System.out.print("Indtast uge: ");
+        Week week = inputIntToReturnWeek(console, year);
+        viewAndEditSchedule(console, employees, year, week);
+    }
+
+    public static void viewAndEditSchedule(Scanner console, ArrayList<Employee> employees, Year year, Week week){
+        printSchedule(employees, week);
+        int answer = 1;
+        System.out.println("Tryk 1 for at redigere vagtplan");
+        System.out.println("Tryk 2 for at gå til foregående uge");
+        System.out.println("Tryk 3 for at gå til næste uge");
+        System.out.println("Tryk 4 for at søge blandt uger");
+        System.out.println("Tryk 0 for at exitte menuen");
+
+        while (answer != 0 || (answer < 2 && answer > 4)) {
+            System.out.print("Indtast valg: ");
+            answer = console.nextInt();
+
+            switch (answer) {
+                case 1:
+                    //EDIT SCHEDULE
+                    break;
+
+                case 2:
+                    Week prevWeek = year.getWeeks()[week.getWeek()-2];
+                    viewAndEditSchedule(console, employees, year, prevWeek);
+                    answer = 0;
+                    break;
+
+                case 3:
+                    Week nextWeek = year.getWeeks()[week.getWeek()];
+                    viewAndEditSchedule(console, employees, year, nextWeek);
+                    answer = 0;
+                    break;
+
+                case 4:
+                    System.out.print("Indtast uge: ");
+                    Week newWeek = inputIntToReturnWeek(console, year);
+                    viewAndEditSchedule(console, employees, year, newWeek);
+                    answer = 0;
+                    break;
+                case 0:
+                    break;
+
+                default:
+                    System.out.println("Forkert input");
+                    break;
+            }
+        }
+    }
+
+    public static Week inputIntToReturnWeek(Scanner console, Year year){
+        int weekNumber = console.nextInt();
+        Week week = year.getWeeks()[weekNumber-1];
+        return week;
     }
     
     /* The method takes the ArrayList of employees and the week of choice. It then prints
