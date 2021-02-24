@@ -379,6 +379,91 @@ public class Main {
             }
         }
     }
+    public static void editSchedule(Scanner scan, Year year, ArrayList<Employee> list){
+        System.out.println("Indtast nummer for den uge du vil redigere:");
+        int weekNumber = scan.nextInt();
+        for(int i=0;i<list.size();i++){
+            System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
+        }
+        System.out.println("Indtast medarbejder nummer for den medarbejder, hvis tider du vil redigere:");
+        int empID = scan.nextInt();
+        boolean foundID = false;
+        for(int i=0;i<year.getWeeks()[weekNumber-1].workHourList.size();i++){
+            if(empID == year.getWeeks()[weekNumber-1].workHourList.get(i).employeeID){
+                foundID = true;
+                for(int j=0;j<year.getWeeks()[weekNumber-1].workHourList.get(i).getDays().length;j++){
+                    switch(j){
+                        case 0:
+                            System.out.println("Mandag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 1:
+                            System.out.println("Tirsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 2:
+                            System.out.println("Onsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 3:
+                            System.out.println("Torsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 4:
+                            System.out.println("Fredag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                System.out.println("Indtast hvilken dag du vil redigere: ");
+                String ugeDag = scan.next();
+                switch(ugeDag.toUpperCase()){
+                    case "MANDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        int newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        int newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setEnd(newEnd);
+                        break;
+                    case "TIRSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setEnd(newEnd);
+                        break;
+                    case "ONSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setEnd(newEnd);
+                        break;
+                    case "TORSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setEnd(newEnd);
+                        break;
+                    case "FREDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setEnd(newEnd);
+                        break;
+                }
+                System.out.println("Vagten er opdateret.");
+            }
+        }
+        if(!foundID){
+            System.out.println("Der er ingen medarbejder med dette medarbejdernummer i vagtplanen.");
+        }
+
+    }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
 /*
