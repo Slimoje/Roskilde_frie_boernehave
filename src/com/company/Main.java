@@ -311,6 +311,33 @@ public class Main {
         }
         return (employees.get(ch-1));
     }
+    public static void saveWorkHours(Year year, ArrayList<Employee> list)throws FileNotFoundException {
+        PrintStream output = new PrintStream(new File("Workhours.txt"));
+        for(int i = 0; i < year.getWeeks().length; i++){
+            Week w = year.getWeeks()[i];
+            output.print("Week:"+w.week+":");
+            for(int j = 0; j < w.getWorkHourList().size(); j++){
+                for(int k = 0; k < list.size(); k++){
+                    if(w.getWorkHourList().get(j).employeeID == list.get(k).employeeID) {
+                        output.print("EmployeeID:"+list.get(k).employeeID + ":");
+                        for (int l = 0; l < w.getWorkHourList().get(j).getDays().length; l++){
+                            if (w.getWorkHourList().get(j).getDays()[l].getStart() != 0) {
+                                output.print(w.getWorkHourList().get(j).getDays()[l].start + ":");
+                            } else {
+                                output.print("0:");
+                            }
+                            if (w.getWorkHourList().get(j).getDays()[l].getEnd() != 0) {
+                            output.print(w.getWorkHourList().get(j).getDays()[l].end+":");
+                            } else {
+                            output.print("0:");
+                            }
+                        }
+                    }
+                }
+            }
+            output.println();
+        }
+    }
 
 //DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
 /*
