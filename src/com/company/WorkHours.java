@@ -34,15 +34,17 @@ public class WorkHours {
         this.employeeID = employeeID;
     }
     
+    /* Method returns the sum of the length of all days in the Days-array. */
     public int totalWorkhours(){
         int total = 0;
         for(int i = 0; i < days.length; i++){
             if(days[i] != null) {
-                total += days[i].end - days[i].start;
+                total += days[i].lengthOfDay();
             }
         }
         return total;
     }
+    
     private Day[] emptyDayArray(){
         Day[] days = {new Day(), new Day(), new Day(), new Day(), new Day()};
         return days;
