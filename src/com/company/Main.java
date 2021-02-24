@@ -410,9 +410,7 @@ public class Main {
             }
         }
     }
-    public static void editSchedule(Scanner scan, Year year, ArrayList<Employee> list){
-        System.out.println("Indtast nummer for den uge du vil redigere:");
-        int weekNumber = scan.nextInt();
+    public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list){
         for(int i=0;i<list.size();i++){
             System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
         }
