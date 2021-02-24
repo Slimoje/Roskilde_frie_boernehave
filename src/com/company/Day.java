@@ -26,5 +26,9 @@ public class Day {
     public void setEnd(int end) {
         this.end = end;
     }
-}
 
+    /* Method returns the length of the working day. */
+    public int lengthOfDay(){
+        return end - start;
+    }
+}
