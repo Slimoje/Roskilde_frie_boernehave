@@ -1,12 +1,15 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws FileNotFoundException{
         
         /* The following two lines instantiates a new ArrayList of Employees,
          * and populates it with five hardcoded Employee-objects. */
@@ -14,11 +17,23 @@ public class Main {
         ArrayList<Employee> employees = new ArrayList<>();
         addHardcodedEmployees(employees);
 
-        System.out.println(employees);
 
-        createEmployee(scan, employees);
 
-        System.out.println(employees);
+        /*createEmployee(scan, employees);
+
+        System.out.println(employees);*/
+
+        Year year = new Year(2021);
+        loadWorkHours(year);
+
+        System.out.println(year);
+
+        editSchedule(scan, year, employees);
+
+        System.out.println(year.getWeeks()[51]);
+        //addHardcodedWeekToYear(year, employees);
+
+        //saveWorkHours(year, employees);
         
         /*HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
@@ -80,7 +95,7 @@ public class Main {
         int answer = 1;
         System.out.println("Tryk 1 for at vise en liste over børn");
         System.out.println("Tryk 2 for at vise vagtplanen");
-        System.out.println("Tryk 3 for at lave vagtplanen");
+        System.out.println("Tryk 3 for at redigere vagtplanen");
         System.out.println("Tryk 4 for at vise telefonlisten");
         System.out.println("Tryk 5 for at vise listen over ansatte");
         System.out.println("Tryk 0 for at exitte menuen");
@@ -168,6 +183,60 @@ public class Main {
         employees.add(e4);
         employees.add(e5);
     }
+    public static void addHardcodedWeekToYear(Year year, ArrayList<Employee> employees){
+        for(int i = 0; i < year.getWeeks().length; i++) {
+            Day d01 = new Day(8, 16);
+            Day d02 = new Day(9, 16);
+            Day d03 = new Day(8, 16);
+            Day d04 = new Day(9, 15);
+            Day d05 = new Day(8, 16);
+            Day[] days0 = {d01, d02, d03, d04, d05};
+            WorkHours wh1 = new WorkHours(days0, employees.get(0).getEmployeeID());
+
+            Day d11 = new Day(10, 18);
+            Day d12 = new Day(10, 18);
+            Day d13 = new Day(9, 18);
+            Day d14 = new Day(12, 18);
+            Day d15 = new Day(11, 18);
+            Day[] days1 = {d11, d12, d13, d14, d15};
+            WorkHours wh2 = new WorkHours(days1, employees.get(1).getEmployeeID());
+
+            Day d21 = new Day(6, 14);
+            Day d22 = new Day(6, 15);
+            Day d23 = new Day(7, 16);
+            Day d24 = new Day(6, 13);
+            Day d25 = new Day(6, 15);
+            Day[] days2 = {d21, d22, d23, d24, d25};
+            WorkHours wh3 = new WorkHours(days2, employees.get(2).getEmployeeID());
+
+            Day d31 = new Day(9, 17);
+            Day d32 = new Day(7, 15);
+            Day d33 = new Day(6, 15);
+            Day d34 = new Day(8, 15);
+            Day d35 = new Day(6, 12);
+            Day[] days3 = {d31, d32, d33, d34, d35};
+            WorkHours wh4 = new WorkHours(days3, employees.get(3).getEmployeeID());
+
+            Day d41 = new Day(7, 15);
+            Day d42 = new Day(8, 15);
+            Day d43 = new Day(7, 15);
+            Day d44 = new Day(8, 14);
+            Day d45 = new Day(7, 15);
+            Day[] days4 = {d41, d42, d43, d44, d45};
+            WorkHours wh5 = new WorkHours(days4, employees.get(4).getEmployeeID());
+
+            ArrayList<WorkHours> workHours = new ArrayList<>();
+            workHours.add(wh1);
+            workHours.add(wh2);
+            workHours.add(wh3);
+            workHours.add(wh4);
+            workHours.add(wh5);
+
+            Week w = new Week(i + 1, workHours);
+
+            year.getWeeks()[i] = w;
+        }
+    }
     public static void createEmployee(Scanner scan, ArrayList<Employee> list){
         System.out.println("Indtast navn: ");
         String name = scan.nextLine();
@@ -196,6 +265,159 @@ public class Main {
         String department = scan.next();
         Employee newEmployee = new Employee(name, address, phoneNumber, email, ssn, memberID, isManager, department);
         list.add(newEmployee);
+    }
+    public static void saveWorkHours(Year year, ArrayList<Employee> list)throws FileNotFoundException {
+        PrintStream output = new PrintStream(new File("Workhours.txt"));
+        for(int i = 0; i < year.getWeeks().length; i++){
+            Week w = year.getWeeks()[i];
+            output.print("Week:"+w.week+":");
+            for(int j = 0; j < w.getWorkHourList().size(); j++){
+                for(int k = 0; k < list.size(); k++){
+                    if(w.getWorkHourList().get(j).employeeID == list.get(k).employeeID) {
+                        output.print("EmployeeID:"+list.get(k).employeeID + ":");
+                        for (int l = 0; l < w.getWorkHourList().get(j).getDays().length; l++){
+                            if (w.getWorkHourList().get(j).getDays()[l].getStart() != 0) {
+                                output.print(w.getWorkHourList().get(j).getDays()[l].start + ":");
+                            } else {
+                                output.print("0:");
+                            }
+                            if (w.getWorkHourList().get(j).getDays()[l].getEnd() != 0) {
+                            output.print(w.getWorkHourList().get(j).getDays()[l].end+":");
+                            } else {
+                            output.print("0:");
+                            }
+                        }
+                    }
+                }
+            }
+            output.println();
+        }
+    }
+    public static void loadWorkHours(Year year)throws FileNotFoundException{
+        File workHours = new File(("Workhours.txt"));
+        int week = 0;
+        if(workHours.exists()){
+            Scanner scan = new Scanner(workHours);
+            while(scan.hasNextLine()){
+                ArrayList<WorkHours> workhours = new ArrayList<>();
+                Scanner line = new Scanner(scan.nextLine());
+                line.useDelimiter(":");
+                if(line.next().equals("Week")){
+                    week = line.nextInt();
+                }while (line.hasNext()) {
+                    if(line.next().equals("EmployeeID")) {
+                        int employeeID = line.nextInt();
+                        int startMonday = line.nextInt();
+                        int endMonday = line.nextInt();
+                        int startTuesday = line.nextInt();
+                        int endTuesday = line.nextInt();
+                        int startWednesday = line.nextInt();
+                        int endWednesday = line.nextInt();
+                        int startThursday = line.nextInt();
+                        int endThursday = line.nextInt();
+                        int startFriday = line.nextInt();
+                        int endFriday = line.nextInt();
+
+                        Day monday = new Day(startMonday, endMonday);
+                        Day tuesday = new Day(startTuesday, endTuesday);
+                        Day wednesday = new Day(startWednesday, endWednesday);
+                        Day thursday = new Day(startThursday, endThursday);
+                        Day friday = new Day(startFriday, endFriday);
+                        Day[] days = {monday, tuesday, wednesday, thursday, friday};
+
+                        WorkHours newWorkHours = new WorkHours(days, employeeID);
+                        workhours.add(newWorkHours);
+                    }
+                }
+                Week newWeek = new Week(week, workhours);
+                year.getWeeks()[week - 1] = newWeek;
+            }
+        }
+    }
+    public static void editSchedule(Scanner scan, Year year, ArrayList<Employee> list){
+        System.out.println("Indtast nummer for den uge du vil redigere:");
+        int weekNumber = scan.nextInt();
+        for(int i=0;i<list.size();i++){
+            System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
+        }
+        System.out.println("Indtast medarbejder nummer for den medarbejder, hvis tider du vil redigere:");
+        int empID = scan.nextInt();
+        boolean foundID = false;
+        for(int i=0;i<year.getWeeks()[weekNumber-1].workHourList.size();i++){
+            if(empID == year.getWeeks()[weekNumber-1].workHourList.get(i).employeeID){
+                foundID = true;
+                for(int j=0;j<year.getWeeks()[weekNumber-1].workHourList.get(i).getDays().length;j++){
+                    switch(j){
+                        case 0:
+                            System.out.println("Mandag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 1:
+                            System.out.println("Tirsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 2:
+                            System.out.println("Onsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 3:
+                            System.out.println("Torsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        case 4:
+                            System.out.println("Fredag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                System.out.println("Indtast hvilken dag du vil redigere: ");
+                String ugeDag = scan.next();
+                switch(ugeDag.toUpperCase()){
+                    case "MANDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        int newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        int newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setEnd(newEnd);
+                        break;
+                    case "TIRSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setEnd(newEnd);
+                        break;
+                    case "ONSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setEnd(newEnd);
+                        break;
+                    case "TORSDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setEnd(newEnd);
+                        break;
+                    case "FREDAG":
+                        System.out.println("Indtast start tidspunkt for vagten:");
+                        newStart = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setStart(newStart);
+                        System.out.println("Indtast slut tidspunkt for vagten:");
+                        newEnd = scan.nextInt();
+                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setEnd(newEnd);
+                        break;
+                }
+                System.out.println("Vagten er opdateret.");
+            }
+        }
+        if(!foundID){
+            System.out.println("Der er ingen medarbejder med dette medarbejdernummer i vagtplanen.");
+        }
+
     }
 
 }

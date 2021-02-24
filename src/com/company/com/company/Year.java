@@ -8,8 +8,15 @@ public class Year {
         this.year = year;
         weeks = weekArray;
     }
-    public String toString(){
-        return "";
+
+    public Year(int year){
+        this.year = year;
+        weeks = new Week[52];
+    }
+
+    public Year(){
+        year = 0;
+        weeks = null;
     }
 
     public int getYear() {
@@ -26,5 +33,19 @@ public class Year {
 
     public void setWeeks(Week[] weeks) {
         this.weeks = weeks;
+    }
+
+    public String toString(){
+        String result = "";
+        for(int i = 0; i<weeks.length;i++){
+            result += weeks[i].week+"\n";
+            for(int j = 0; j<weeks[i].getWorkHourList().size();j++){
+                result += weeks[i].getWorkHourList().get(j).getEmployeeID()+"\n";
+                for(int k = 0; k<weeks[i].getWorkHourList().get(j).getDays().length;k++){
+                    result += weeks[i].getWorkHourList().get(j).getDays()[k].getStart()+"-"+weeks[i].getWorkHourList().get(j).getDays()[k].getEnd()+"\n";
+                }
+            }
+        }
+        return result;
     }
 }
