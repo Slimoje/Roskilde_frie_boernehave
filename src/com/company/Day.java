@@ -1,48 +1,23 @@
 package com.company;
 
 public class Day {
-    String weekDay;
-    String date;
+
     int start;
     int end;
 
-    public Day(String day, String date, int start, int end) {
-        this.weekDay = day;
-        this.date = date;
+    public Day(){
+        start = 0;
+        end = 0;
+    }
+    public Day(int start, int end) {
         this.start = start;
         this.end = end;
     }
-
-    public Day(int start, int end){
-        weekDay = "";
-        date = "";
-        this.start = start;
-        this.end = end;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getDay() {
-        return weekDay;
-    }
-
     public int getStart() {
         return start;
     }
 
-    public int getEnd() {
-        return end;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setWeekDay(String weekDay) {
-        this.weekDay = weekDay;
-    }
+    public int getEnd() { return end; }
 
     public void setStart(int start) {
         this.start = start;
@@ -52,3 +27,4 @@ public class Day {
         this.end = end;
     }
 }
+
