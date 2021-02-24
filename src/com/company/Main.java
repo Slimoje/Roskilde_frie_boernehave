@@ -151,7 +151,9 @@ public class Main {
     }
 
     public static void viewAndEditSchedule(Scanner console, ArrayList<Employee> employees, Year year, Week week){
+        System.out.println("\n");
         printSchedule(employees, week);
+        System.out.println();
         int answer = 1;
         System.out.println("Tryk 1 for at redigere vagtplan");
         System.out.println("Tryk 2 for at gå til foregående uge");
