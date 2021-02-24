@@ -5,30 +5,47 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException{
-        
+    public static void main(String[] args) {
+
+        /* The following two lines instantiates a new ArrayList of Employees,
+         * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
         FileHandler.loadEmployees(employees);
-        
+
+        /* The following two lines instatniates the Year 2021 and then adds
+         * a hardcoded Week-array to it. Each Week is populated with
+         * working hours for each Employee, although every week looks similar
+         * Such is the nature of hard-coding. */
         Year year = new Year(2021);
         FileHandler.loadWorkHours(year);
-        
+
+        Scanner console = new Scanner(System.in);
+        loginMenu(employees, year, console);
+
+        /*System.out.print("Indtast uge: ");
+        Week week = inputIntToReturnWeek(console, year);
+        viewAndEditSchedule(console, employees, year, week);*/
+
+
+    }
+
+    public static void loginMenu(ArrayList<Employee> employees, Year year, Scanner console){
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
-        Scanner console = new Scanner(System.in);
         loginInfo.put("pungrotten69", "xd");
         adminLoginInfo.put("admin", "admin");
         //MÅSKE SPØRGE OM DU ER ADMIN ELLER PERSONALE, OGSÅ KAN MAN VÆLGE 1 ELLER 2 SOM ENTER TO FORSKELLIGE HASHMAPS?
 
 
         int answer = 1;
-        System.out.println("Tryk 1 for admin login");
-        System.out.println("Tryk 2 for personale login");
-        System.out.println("Tryk 0 for at exitte denne menu");
-        while(answer != 0){
+
+        while (answer != 0) {
+            System.out.println("Tryk 1 for admin login");
+            System.out.println("Tryk 2 for personale login");
+            System.out.println("Tryk 0 for at exitte denne menu");
             answer = console.nextInt();
 
-            switch(answer) {
+            switch (answer) {
 //Her tager programmet adminLoginInfo hashmappet, som bliver brugt til vores admin. Hvis man kommer igennem de to forskellige, vil man komme videre til den næste metode
 //som nok bliver en menu, hvor man kan access og ÆNDRER en vagtplan.
                 case 1:
@@ -39,10 +56,10 @@ public class Main {
                         String password = console.next();
                         if (adminLoginInfo.containsValue(password)) {
                             System.out.println("Login var en succes!");
-                            adminMenu(console);
+                            adminMenu(console, employees, year);
                         }
                     }
-                break;
+                    break;
 //Her tager programmet loginInfo hashmappet, som bliver brugt til vores Staff. Hvis man kommer igennem de to forskellige, vil man komme videre til den næste metode
 //som nok bliver en menu, hvor man kan access en vagtplan.
                 case 2:
@@ -56,72 +73,66 @@ public class Main {
                             staffMenu(console);
                         }
                     }
-                break;
+                    break;
 
                 default:
                     //System.out.println("Forkert input, prøv igen!");
-                break;
+                    break;
             }
         }
     }
 
-
-
     //DENNE MENU KAN KUN BLIVE ACCESSED VIA ADMIN LOGIN
-    public static void adminMenu(Scanner console){
+    public static void adminMenu(Scanner console, ArrayList<Employee> employees, Year year) {
 
         int answer = 1;
-        System.out.println("Tryk 1 for at vise en liste over børn");
-        System.out.println("Tryk 2 for at vise vagtplanen");
-        System.out.println("Tryk 3 for at lave vagtplanen");
-        System.out.println("Tryk 4 for at vise telefonlisten");
-        System.out.println("Tryk 5 for at vise listen over ansatte");
-        System.out.println("Tryk 0 for at exitte menuen");
 
-        while (answer != 0){
+
+        while (answer != 0) {
+            System.out.println("Tryk 1 for at vise en liste over børn");
+            System.out.println("Tryk 2 for vagtplan");
+            System.out.println("Tryk 3 for at vise telefonlisten");
+            System.out.println("Tryk 4 for at vise listen over ansatte");
+            System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
 
-            switch (answer){
+            switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
 
                 case 2:
-                    System.out.println("Du har valgt at vise vagtplanen");
-                    //METODE FOR AT VISE VAGTPLANEN
+                    scheduleMenu(console, employees, year);
                     break;
 
                 case 3:
-                    System.out.println("Du har valgt at lave vagtplanen");
-                    //METODE FOR AT ÆNDRER I VAGTPLANEN
+                    System.out.println("Sike, thats the wrong NUMBER");
                     break;
 
                 case 4:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
-
-                case 5:
-                    System.out.println("Sike, thats the wrong NUMBER");
-                    break;
                 default:
                     //System.out.println("Forkert input");
                     break;
             }
         }
     }
+
     //DENNE MENU KAN KUN BLIVE ACCESED VIA STAFFLOGIN
-    public static void staffMenu(Scanner console){
+    public static void staffMenu(Scanner console) {
 
         int answer = 1;
-        System.out.println("Tryk 1 for at vise en liste over børn");
-        System.out.println("Tryk 2 for at vise vagtplanen");
-        System.out.println("Tryk 3 for at vise telefonlisten");
-        System.out.println("Tryk 0 for at exitte menuen");
 
-        while (answer != 0){
+
+        while (answer != 0) {
+            System.out.println("Tryk 1 for at vise en liste over børn");
+            System.out.println("Tryk 2 for at vise vagtplanen");
+            System.out.println("Tryk 3 for at vise telefonlisten");
+            System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
 
-            switch (answer){
+            switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
@@ -140,6 +151,68 @@ public class Main {
                     break;
             }
         }
+    }
+    
+    public static void scheduleMenu(Scanner console, ArrayList<Employee> employees, Year year){
+        //Der skal lige oprettes en menu her. Indtil videre er dette her en forløber
+        //på "se og rediger.
+        System.out.print("Indtast uge: ");
+        Week week = inputIntToReturnWeek(console, year);
+        viewAndEditSchedule(console, employees, year, week);
+    }
+
+    public static void viewAndEditSchedule(Scanner console, ArrayList<Employee> employees, Year year, Week week){
+        System.out.println("\n");
+        printSchedule(employees, week);
+        System.out.println();
+        int answer = 1;
+        System.out.println("Tryk 1 for at redigere vagtplan");
+        System.out.println("Tryk 2 for at gå til foregående uge");
+        System.out.println("Tryk 3 for at gå til næste uge");
+        System.out.println("Tryk 4 for at søge blandt uger");
+        System.out.println("Tryk 0 for at exitte menuen");
+
+        while (answer != 0 || (answer < 2 && answer > 4)) {
+            System.out.print("Indtast valg: ");
+            answer = console.nextInt();
+
+            switch (answer) {
+                case 1:
+                    //EDIT SCHEDULE
+                    break;
+
+                case 2:
+                    Week prevWeek = year.getWeeks()[week.getWeek()-2];
+                    viewAndEditSchedule(console, employees, year, prevWeek);
+                    answer = 0;
+                    break;
+
+                case 3:
+                    Week nextWeek = year.getWeeks()[week.getWeek()];
+                    viewAndEditSchedule(console, employees, year, nextWeek);
+                    answer = 0;
+                    break;
+
+                case 4:
+                    System.out.print("Indtast uge: ");
+                    Week newWeek = inputIntToReturnWeek(console, year);
+                    viewAndEditSchedule(console, employees, year, newWeek);
+                    answer = 0;
+                    break;
+                case 0:
+                    break;
+
+                default:
+                    System.out.println("Forkert input");
+                    break;
+            }
+        }
+    }
+
+    public static Week inputIntToReturnWeek(Scanner console, Year year){
+        int weekNumber = console.nextInt();
+        Week week = year.getWeeks()[weekNumber-1];
+        return week;
     }
     
     /* The method takes the ArrayList of employees and the week of choice. It then prints
@@ -336,74 +409,7 @@ public class Main {
         }
         return (employees.get(ch-1));
     }
-    public static void saveWorkHours(Year year, ArrayList<Employee> list)throws FileNotFoundException {
-        PrintStream output = new PrintStream(new File("Workhours.txt"));
-        for(int i = 0; i < year.getWeeks().length; i++){
-            Week w = year.getWeeks()[i];
-            output.print("Week:"+w.week+":");
-            for(int j = 0; j < w.getWorkHourList().size(); j++){
-                for(int k = 0; k < list.size(); k++){
-                    if(w.getWorkHourList().get(j).employeeID == list.get(k).employeeID) {
-                        output.print("EmployeeID:"+list.get(k).employeeID + ":");
-                        for (int l = 0; l < w.getWorkHourList().get(j).getDays().length; l++){
-                            if (w.getWorkHourList().get(j).getDays()[l].getStart() != 0) {
-                                output.print(w.getWorkHourList().get(j).getDays()[l].start + ":");
-                            } else {
-                                output.print("0:");
-                            }
-                            if (w.getWorkHourList().get(j).getDays()[l].getEnd() != 0) {
-                            output.print(w.getWorkHourList().get(j).getDays()[l].end+":");
-                            } else {
-                            output.print("0:");
-                            }
-                        }
-                    }
-                }
-            }
-            output.println();
-        }
-    }
-    public static void loadWorkHours(Year year)throws FileNotFoundException{
-        File workHours = new File(("Workhours.txt"));
-        int week = 0;
-        if(workHours.exists()){
-            Scanner scan = new Scanner(workHours);
-            while(scan.hasNextLine()){
-                ArrayList<WorkHours> workhours = new ArrayList<>();
-                Scanner line = new Scanner(scan.nextLine());
-                line.useDelimiter(":");
-                if(line.next().equals("Week")){
-                    week = line.nextInt();
-                }while (line.hasNext()) {
-                    if(line.next().equals("EmployeeID")) {
-                        int employeeID = line.nextInt();
-                        int startMonday = line.nextInt();
-                        int endMonday = line.nextInt();
-                        int startTuesday = line.nextInt();
-                        int endTuesday = line.nextInt();
-                        int startWednesday = line.nextInt();
-                        int endWednesday = line.nextInt();
-                        int startThursday = line.nextInt();
-                        int endThursday = line.nextInt();
-                        int startFriday = line.nextInt();
-                        int endFriday = line.nextInt();
-
-                        Day monday = new Day(startMonday, endMonday);
-                        Day tuesday = new Day(startTuesday, endTuesday);
-                        Day wednesday = new Day(startWednesday, endWednesday);
-                        Day thursday = new Day(startThursday, endThursday);
-                        Day friday = new Day(startFriday, endFriday);
-                        Day[] days = {monday, tuesday, wednesday, thursday, friday};
-
-                        WorkHours newWorkHours = new WorkHours(days, employeeID);
-                        workhours.add(newWorkHours);
-                    }
-                }
-                Week newWeek = new Week(week, workhours);
-                year.getWeeks()[week - 1] = newWeek;
-            }
-        }
-    }
+    
     public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list){
         for(int i=0;i<list.size();i++){
             System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
