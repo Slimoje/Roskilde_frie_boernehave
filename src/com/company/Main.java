@@ -6,35 +6,46 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         /* The following two lines instantiates a new ArrayList of Employees,
-        * and populates it with five hardcoded Employee-objects. */
+         * and populates it with five hardcoded Employee-objects. */
         ArrayList<Employee> employees = new ArrayList<>();
         addHardcodedEmployees(employees);
-        
+
         /* The following two lines instatniates the Year 2021 and then adds
-        * a hardcoded Week-array to it. Each Week is populated with 
-        * working hours for each Employee, although every week looks similar
-        * Such is the nature of hard-coding. */
+         * a hardcoded Week-array to it. Each Week is populated with
+         * working hours for each Employee, although every week looks similar
+         * Such is the nature of hard-coding. */
         Year year = new Year(2021);
         addHardcodedWeekToYear(year, employees);
-        
+
+        Scanner console = new Scanner(System.in);
+        loginMenu(employees, year, console);
+
+        /*System.out.print("Indtast uge: ");
+        Week week = inputIntToReturnWeek(console, year);
+        viewAndEditSchedule(console, employees, year, week);*/
+
+
+    }
+
+    public static void loginMenu(ArrayList<Employee> employees, Year year, Scanner console){
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
-        Scanner console = new Scanner(System.in);
         loginInfo.put("pungrotten69", "xd");
         adminLoginInfo.put("admin", "admin");
         //MÅSKE SPØRGE OM DU ER ADMIN ELLER PERSONALE, OGSÅ KAN MAN VÆLGE 1 ELLER 2 SOM ENTER TO FORSKELLIGE HASHMAPS?
 
 
         int answer = 1;
-        System.out.println("Tryk 1 for admin login");
-        System.out.println("Tryk 2 for personale login");
-        System.out.println("Tryk 0 for at exitte denne menu");
-        while(answer != 0){
+
+        while (answer != 0) {
+            System.out.println("Tryk 1 for admin login");
+            System.out.println("Tryk 2 for personale login");
+            System.out.println("Tryk 0 for at exitte denne menu");
             answer = console.nextInt();
 
-            switch(answer) {
+            switch (answer) {
 //Her tager programmet adminLoginInfo hashmappet, som bliver brugt til vores admin. Hvis man kommer igennem de to forskellige, vil man komme videre til den næste metode
 //som nok bliver en menu, hvor man kan access og ÆNDRER en vagtplan.
                 case 1:
@@ -45,10 +56,10 @@ public class Main {
                         String password = console.next();
                         if (adminLoginInfo.containsValue(password)) {
                             System.out.println("Login var en succes!");
-                            adminMenu(console);
+                            adminMenu(console, employees, year);
                         }
                     }
-                break;
+                    break;
 //Her tager programmet loginInfo hashmappet, som bliver brugt til vores Staff. Hvis man kommer igennem de to forskellige, vil man komme videre til den næste metode
 //som nok bliver en menu, hvor man kan access en vagtplan.
                 case 2:
@@ -62,28 +73,27 @@ public class Main {
                             staffMenu(console);
                         }
                     }
-                break;
+                    break;
 
                 default:
                     //System.out.println("Forkert input, prøv igen!");
-                break;
+                    break;
             }
         }
     }
 
-
-
     //DENNE MENU KAN KUN BLIVE ACCESSED VIA ADMIN LOGIN
-    public static void adminMenu(Scanner console) {
+    public static void adminMenu(Scanner console, ArrayList<Employee> employees, Year year) {
 
         int answer = 1;
-        System.out.println("Tryk 1 for at vise en liste over børn");
-        System.out.println("Tryk 2 for vagtplan");
-        System.out.println("Tryk 3 for at vise telefonlisten");
-        System.out.println("Tryk 4 for at vise listen over ansatte");
-        System.out.println("Tryk 0 for at exitte menuen");
+
 
         while (answer != 0) {
+            System.out.println("Tryk 1 for at vise en liste over børn");
+            System.out.println("Tryk 2 for vagtplan");
+            System.out.println("Tryk 3 for at vise telefonlisten");
+            System.out.println("Tryk 4 for at vise listen over ansatte");
+            System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
 
             switch (answer) {
@@ -108,20 +118,21 @@ public class Main {
             }
         }
     }
-    
+
     //DENNE MENU KAN KUN BLIVE ACCESED VIA STAFFLOGIN
-    public static void staffMenu(Scanner console){
+    public static void staffMenu(Scanner console) {
 
         int answer = 1;
-        System.out.println("Tryk 1 for at vise en liste over børn");
-        System.out.println("Tryk 2 for at vise vagtplanen");
-        System.out.println("Tryk 3 for at vise telefonlisten");
-        System.out.println("Tryk 0 for at exitte menuen");
 
-        while (answer != 0){
+
+        while (answer != 0) {
+            System.out.println("Tryk 1 for at vise en liste over børn");
+            System.out.println("Tryk 2 for at vise vagtplanen");
+            System.out.println("Tryk 3 for at vise telefonlisten");
+            System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
 
-            switch (answer){
+            switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
