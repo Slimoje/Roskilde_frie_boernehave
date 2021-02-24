@@ -1,34 +1,37 @@
 package com.company;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         /* The following two lines instantiates a new ArrayList of Employees,
-         * and populates it with five hardcoded Employee-objects. */
+        * and populates it by loading information of employees from a file. */
         ArrayList<Employee> employees = new ArrayList<>();
         FileHandler.loadEmployees(employees);
+        //addHardcodedEmployees(employees);
 
-        /* The following two lines instatniates the Year 2021 and then adds
-         * a hardcoded Week-array to it. Each Week is populated with
-         * working hours for each Employee, although every week looks similar
-         * Such is the nature of hard-coding. */
+        /* The following two lines instatniates the Year 2021 and then loads the
+        * information with all the working hours from a file. */
         Year year = new Year(2021);
         FileHandler.loadWorkHours(year);
+        //addHardcodedWeekToYear(year, employees);
 
         Scanner console = new Scanner(System.in);
         loginMenu(employees, year, console);
 
-        /*System.out.print("Indtast uge: ");
-        Week week = inputIntToReturnWeek(console, year);
-        viewAndEditSchedule(console, employees, year, week);*/
-
-
+        /* The following two lines saves the information in the Employees-
+        * ArrayList and the Year-object to files. */
+        FileHandler.saveEmployees(employees);
+        FileHandler.saveWorkHours(year, employees);
     }
 
+    /* The method contains the login menu. So for it creates a single common user and
+    * a single administrator. It then asks the user to log in as on of the two types, and
+    * proceeds to the corresponing menus. */
     public static void loginMenu(ArrayList<Employee> employees, Year year, Scanner console){
         HashMap<String, String> loginInfo = new HashMap<>();
         HashMap<String, String> adminLoginInfo = new HashMap<>();
@@ -74,41 +77,37 @@ public class Main {
                         }
                     }
                     break;
-
+                case 0:
+                    break;
                 default:
-                    //System.out.println("Forkert input, prøv igen!");
+                    System.out.println("Forkert input, prøv igen!");
                     break;
             }
         }
     }
 
-    //DENNE MENU KAN KUN BLIVE ACCESSED VIA ADMIN LOGIN
+    /* The method is the menu for administrators, and the focus for this project.
+    * It gives the user the possibility to view information and to edit it.*/
     public static void adminMenu(Scanner console, ArrayList<Employee> employees, Year year) {
-
         int answer = 1;
-
-
         while (answer != 0) {
+            System.out.println("----------======Hovedmenu======----------");
             System.out.println("Tryk 1 for at vise en liste over børn");
             System.out.println("Tryk 2 for vagtplan");
             System.out.println("Tryk 3 for at vise telefonlisten");
-            System.out.println("Tryk 4 for medarbejdermenu");
+            System.out.println("Tryk 4 for at vise listen over ansatte");
             System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
-
             switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
-
                 case 2:
                     scheduleMenu(console, employees, year);
                     break;
-
                 case 3:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
-
                 case 4:
                     boolean keepGoing = true;
                     while(keepGoing){
@@ -167,76 +166,78 @@ public class Main {
                                 break;
                         }
                     }
-                    break;
                 case 0:
                     break;
                 default:
-                    //System.out.println("Forkert input");
+                    System.out.println("Forkert input.");
                     break;
             }
         }
     }
 
-    //DENNE MENU KAN KUN BLIVE ACCESED VIA STAFFLOGIN
+    /* The method is the menu for the normal staff. It should give the user the
+    * possibility to view information without editing it. */
     public static void staffMenu(Scanner console) {
-
         int answer = 1;
-
-
         while (answer != 0) {
+            System.out.println("----------======Hovedmenu======----------");
             System.out.println("Tryk 1 for at vise en liste over børn");
             System.out.println("Tryk 2 for at vise vagtplanen");
             System.out.println("Tryk 3 for at vise telefonlisten");
             System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
-
             switch (answer) {
                 case 1:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
-
                 case 2:
                     System.out.println("Du har valgt at vise vagtplanen");
                     //METODE FOR AT VISE VAGTPLANEN
                     break;
-
                 case 3:
                     System.out.println("Sike, thats the wrong NUMBER");
                     break;
-
+                case 0:
+                    break;
                 default:
-                    //System.out.println("Forkert input");
+                    System.out.println("Forkert input");
                     break;
             }
         }
     }
-    
+
+    /* The method should contain a menu for how to handle the schedule. This will be implementet
+    * in future iterations. So far it asks the user for what week they want to view, and returns
+    * the corresponding Week-object. It then calls the method to view and edit working hours for
+    * that week. */
     public static void scheduleMenu(Scanner console, ArrayList<Employee> employees, Year year){
-        //Der skal lige oprettes en menu her. Indtil videre er dette her en forløber
-        //på "se og rediger.
         System.out.print("Indtast uge: ");
         Week week = inputIntToReturnWeek(console, year);
         viewAndEditSchedule(console, employees, year, week);
     }
 
+    /* The method prints a working schedule for one week in the console. It then provides the user
+    * with a menu for editing working hours for employees for that week, and for navigating
+    * to different weeks. */
     public static void viewAndEditSchedule(Scanner console, ArrayList<Employee> employees, Year year, Week week){
         System.out.println("\n");
         printSchedule(employees, week);
         System.out.println();
-        int answer = 1;
+        int answer = -1;
         System.out.println("Tryk 1 for at redigere vagtplan");
         System.out.println("Tryk 2 for at gå til foregående uge");
         System.out.println("Tryk 3 for at gå til næste uge");
         System.out.println("Tryk 4 for at søge blandt uger");
         System.out.println("Tryk 0 for at exitte menuen");
 
-        while (answer != 0 || (answer < 2 && answer > 4)) {
+        while (0 > answer || answer > 4) {
             System.out.print("Indtast valg: ");
             answer = console.nextInt();
 
             switch (answer) {
                 case 1:
-                    //EDIT SCHEDULE
+                    editSchedule(console, week.getWeek(), year, employees);
+                    viewAndEditSchedule(console, employees, year, week);
                     break;
 
                 case 2:
@@ -265,46 +266,49 @@ public class Main {
                     break;
             }
         }
+
     }
 
+    /* The method requires the user to input a number and returns the corresponding
+    * Week-object.  */
     public static Week inputIntToReturnWeek(Scanner console, Year year){
         int weekNumber = console.nextInt();
         Week week = year.getWeeks()[weekNumber-1];
         return week;
     }
-    
+
     /* The method takes the ArrayList of employees and the week of choice. It then prints
-    * the working schedule for that week. This is the method that should be called in order
-    * to print the schedule. */
+     * the working schedule for that week. This is the method that should be called in order
+     * to print the schedule. */
     public static void printSchedule(ArrayList<Employee> employees, Week week) {
         System.out.println("                                           uge " + week.getWeek());
         System.out.println("medarbejdere\\ugedage|   mandag  |  tirsdag  |  onsdag   |  torsdag  |  fredag   |  timetal  ");
-        for(int i = 0; i < employees.size(); i++){
+        for (int i = 0; i < employees.size(); i++) {
             Employee emp = employees.get(i);
             WorkHours wh;
-            for(int j = 0; j < week.getWorkHourList().size(); j++){
+            for (int j = 0; j < week.getWorkHourList().size(); j++) {
                 WorkHours whTemp = week.getWorkHourList().get(j);
-                if(emp.getEmployeeID() == whTemp.getEmployeeID()){
+                if (emp.getEmployeeID() == whTemp.getEmployeeID()) {
                     wh = whTemp;
                     printEmployeeWithWorktime(emp, wh);
                 }
             }
         }
     }
-    
+
     /* Method takes an Employee and a WorkHours-object. First a line is printed to seperate the
-    * information from the line above it. It then produces a console output with the
-    * employee's name, and work hours for the corresponding days. It finishes with printing the
-    * total amount of work hours for that week. */
-    public static void printEmployeeWithWorktime(Employee emp, WorkHours wh){
+     * information from the line above it. It then produces a console output with the
+     * employee's name, and work hours for the corresponding days. It finishes with printing the
+     * total amount of work hours for that week. */
+    public static void printEmployeeWithWorktime(Employee emp, WorkHours wh) {
         separatorlineInSchedule();
         System.out.print(stringAtCertainLength(emp.getName(), 20));
-        for(int i = 0; i < wh.getDays().length; i++){
+        for (int i = 0; i < wh.getDays().length; i++) {
             System.out.print("|");
             Day day = wh.getDays()[i];
-            if(day == null || (day.getStart() == 0 && day.getEnd() == 0)){
+            if (day == null || (day.getStart() == 0 && day.getEnd() == 0)) {
                 System.out.print("    fri    ");
-            }else {
+            } else {
                 String hours = "    " + day.getStart() + "-" + day.getEnd();
                 hours = stringAtCertainLength(hours, 11);
                 System.out.print(hours);
@@ -313,31 +317,32 @@ public class Main {
         System.out.print("|");
         System.out.println("    " + wh.totalWorkhours());
     }
-    
+
     /* Method prints the horizontal line seperator for schedules. */
-    public static void separatorlineInSchedule(){
+    public static void separatorlineInSchedule() {
         System.out.println("--------------------+-----------+-----------+-----------+-----------+-----------+-----------");
     }
-    
+
     /* Method takes a String and an integer, and returns that String at the length
-    * specified by the integer. If the original String is shorter, the method puts
-    * spaces " " at the end until the desired length is met. If it is longer, the
-    * method returns a substring of the specified length. */
-    public static String stringAtCertainLength(String name, int len){
-        if(name.length() == len){
+     * specified by the integer. If the original String is shorter, the method puts
+     * spaces " " at the end until the desired length is met. If it is longer, the
+     * method returns a substring of the specified length. */
+    public static String stringAtCertainLength(String name, int len) {
+        if (name.length() == len) {
             return name;
         }
         String nameFormatted = "";
-        if(name.length() < len){
+        if (name.length() < len) {
             nameFormatted = name;
-            while(nameFormatted.length() < len){
+            while (nameFormatted.length() < len) {
                 nameFormatted = nameFormatted + " ";
             }
-        }else{
+        } else {
             nameFormatted = name.substring(0, len);
         }
         return nameFormatted;
     }
+
     public static void createEmployee(ArrayList<Employee> list, Year year){
         Scanner scan = new Scanner(System.in);
         System.out.println("Indtast navn: ");
@@ -371,32 +376,33 @@ public class Main {
             year.getWeeks()[i].getWorkHourList().add(new WorkHours(empID));
         }
     }
-    public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list){
-        for(int i=0;i<list.size();i++){
-            System.out.println("Medarbejdernummer: "+list.get(i).employeeID+" - "+list.get(i).name+".");
+
+    public static void editSchedule(Scanner scan, int weekNumber, Year year, ArrayList<Employee> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("Medarbejdernummer: " + list.get(i).employeeID + " - " + list.get(i).name + ".");
         }
         System.out.println("Indtast medarbejder nummer for den medarbejder, hvis tider du vil redigere:");
         int empID = scan.nextInt();
         boolean foundID = false;
-        for(int i=0;i<year.getWeeks()[weekNumber-1].workHourList.size();i++){
-            if(empID == year.getWeeks()[weekNumber-1].workHourList.get(i).employeeID){
+        for (int i = 0; i < year.getWeeks()[weekNumber - 1].workHourList.size(); i++) {
+            if (empID == year.getWeeks()[weekNumber - 1].workHourList.get(i).employeeID) {
                 foundID = true;
-                for(int j=0;j<year.getWeeks()[weekNumber-1].workHourList.get(i).getDays().length;j++){
-                    switch(j){
+                for (int j = 0; j < year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays().length; j++) {
+                    switch (j) {
                         case 0:
-                            System.out.println("Mandag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            System.out.println("Mandag: " + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getStart() + "-" + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getEnd());
                             break;
                         case 1:
-                            System.out.println("Tirsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            System.out.println("Tirsdag: " + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getStart() + "-" + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getEnd());
                             break;
                         case 2:
-                            System.out.println("Onsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            System.out.println("Onsdag: " + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getStart() + "-" + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getEnd());
                             break;
                         case 3:
-                            System.out.println("Torsdag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            System.out.println("Torsdag: " + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getStart() + "-" + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getEnd());
                             break;
                         case 4:
-                            System.out.println("Fredag: "+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getStart()+"-"+year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[j].getEnd());
+                            System.out.println("Fredag: " + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getStart() + "-" + year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[j].getEnd());
                             break;
                         default:
                             break;
@@ -404,58 +410,58 @@ public class Main {
                 }
                 System.out.println("Indtast hvilken dag du vil redigere: ");
                 String ugeDag = scan.next();
-                switch(ugeDag.toUpperCase()){
+                switch (ugeDag.toUpperCase()) {
                     case "MANDAG":
                         System.out.println("Indtast start tidspunkt for vagten:");
                         int newStart = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setStart(newStart);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[0].setStart(newStart);
                         System.out.println("Indtast slut tidspunkt for vagten:");
                         int newEnd = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[0].setEnd(newEnd);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[0].setEnd(newEnd);
                         break;
                     case "TIRSDAG":
                         System.out.println("Indtast start tidspunkt for vagten:");
                         newStart = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setStart(newStart);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[1].setStart(newStart);
                         System.out.println("Indtast slut tidspunkt for vagten:");
                         newEnd = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[1].setEnd(newEnd);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[1].setEnd(newEnd);
                         break;
                     case "ONSDAG":
                         System.out.println("Indtast start tidspunkt for vagten:");
                         newStart = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setStart(newStart);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[2].setStart(newStart);
                         System.out.println("Indtast slut tidspunkt for vagten:");
                         newEnd = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[2].setEnd(newEnd);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[2].setEnd(newEnd);
                         break;
                     case "TORSDAG":
                         System.out.println("Indtast start tidspunkt for vagten:");
                         newStart = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setStart(newStart);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[3].setStart(newStart);
                         System.out.println("Indtast slut tidspunkt for vagten:");
                         newEnd = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[3].setEnd(newEnd);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[3].setEnd(newEnd);
                         break;
                     case "FREDAG":
                         System.out.println("Indtast start tidspunkt for vagten:");
                         newStart = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setStart(newStart);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[4].setStart(newStart);
                         System.out.println("Indtast slut tidspunkt for vagten:");
                         newEnd = scan.nextInt();
-                        year.getWeeks()[weekNumber-1].workHourList.get(i).getDays()[4].setEnd(newEnd);
+                        year.getWeeks()[weekNumber - 1].workHourList.get(i).getDays()[4].setEnd(newEnd);
                         break;
                 }
                 System.out.println("Vagten er opdateret.");
             }
         }
-        if(!foundID){
+        if (!foundID) {
             System.out.println("Der er ingen medarbejder med dette medarbejdernummer i vagtplanen.");
         }
-
     }
+
     /* The method takes an ArrayList of Employees and adds five hardcoded Employee objects to it. */
-    public static void addHardcodedEmployees(ArrayList<Employee> employees){
+    /*public static void addHardcodedEmployees(ArrayList<Employee> employees) {
         Employee e1 = new Employee("Sandra Madsen", "Bogkjærvej 17", 61235234, "mail@111.dk",
                 543415, 1001, true, "Administrationen");
         Employee e2 = new Employee("Josefine Clausen", "Engehøjgårdsvej 39", 67234789, "mail@222.dk",
@@ -472,19 +478,20 @@ public class Main {
         employees.add(e3);
         employees.add(e4);
         employees.add(e5);
-    }
+    }*/
+
     /* The method takes a Year-object and an ArrayList of Employee-objects. A prerequisite for this
     * method to work optimally is to have 5 Employee-object in the ArrayList. In a for-loop traversing
     * the length of the Week[] in the year, the method generates working hours for each employee and
-    * and adds to the corresponing Week giving along with the week's number. First the method makes five 
-    * Day-objects with times for when the shift starts and ends. Then it creates a Day-array with those five 
+    * and adds to the corresponing Week giving along with the week's number. First the method makes five
+    * Day-objects with times for when the shift starts and ends. Then it creates a Day-array with those five
     * Days. It then instantiates a WorkHours-object with the Day-array and employeeID from the first
     * Employee in the list. This it does for all five employees in the list. It then creates an
     * ArrayList for WorkHours and add these five WorkHours-objects. A Week-object is instantiated, with the
     * correct week number and the WorkHours-ArrayList, and the put into the corresponding position of
     * in the Year-object. */
-    public static void addHardcodedWeekToYear(Year year, ArrayList<Employee> employees){
-        for(int i = 0; i < year.getWeeks().length; i++) {
+    /*public static void addHardcodedWeekToYear(Year year, ArrayList<Employee> employees) {
+        for (int i = 0; i < year.getWeeks().length; i++) {
             Day d01 = new Day(8, 16);
             Day d02 = new Day(9, 16);
             Day d03 = new Day(8, 16);
@@ -505,7 +512,7 @@ public class Main {
             Day d22 = new Day(6, 15);
             Day d23 = new Day(7, 16);
             Day d24 = new Day(6, 13);
-            Day d25 = null;
+            Day d25 = new Day(0, 0);
             Day[] days2 = {d21, d22, d23, d24, d25};
             WorkHours wh3 = new WorkHours(days2, employees.get(2).getEmployeeID());
 
@@ -536,26 +543,5 @@ public class Main {
 
             year.getWeeks()[i] = w;
         }
-    }
-
-//DØD KODE:: KUNNE IKKE FÅ USERNAME/PASSWORD TIL AT TJEKKE OM DET VAR ADMIN ELLER STAFF.
-/*
-        if (loginInfo.containsKey(username.contains("admin"))){
-            System.out.println("Please enter password");
-            String password = console.next();
-
-            if (loginInfo.containsValue(password.contains("admin"))) {
-                System.out.println("Login succesful");
-                System.out.println("HER ER DER EN METODE HVOR ADMIN ENTER EN ADMIN MENU");
-            }
-        }
-
-        /*if (loginInfo.containsKey(username)){
-            System.out.println("Please enter password");
-            String password = console.next();
-
-            if (loginInfo.containsValue(password)){
-                System.out.println("login succesful");
-                System.out.println("HER ER DER EN METODE HVOR PERSONALET ENTER EN PERSONALE MENU");
-            }
-        }*/
+    }*/
+}
