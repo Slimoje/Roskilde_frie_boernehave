@@ -95,7 +95,7 @@ public class Main {
             System.out.println("Tryk 1 for at vise en liste over børn");
             System.out.println("Tryk 2 for vagtplan");
             System.out.println("Tryk 3 for at vise telefonlisten");
-            System.out.println("Tryk 4 for at vise listen over ansatte");
+            System.out.println("Tryk 4 for medarbejdere");
             System.out.println("Tryk 0 for at exitte menuen");
             answer = console.nextInt();
             switch (answer) {
