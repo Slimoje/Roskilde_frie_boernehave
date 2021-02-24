@@ -90,6 +90,7 @@ public class FileHandler {
             int employeeID = Integer.parseInt(load.next());
             boolean admin = load.nextBoolean();
             String department = load.next();
+            load.nextLine();
             employees.add(new Employee(name, address, phoneNumber, mail, CPR, employeeID, admin, department));
         }
     }
@@ -98,12 +99,9 @@ public class FileHandler {
      * in a format that is recognisable for the corresponding load-method. */
     public static void saveEmployees(ArrayList<Employee> employees) throws FileNotFoundException {
         PrintStream save = new PrintStream("employees.txt");
-        if(employees.size() > 0){
-            save.print(employees.get(0).toStringFileFormat());
-        }
-        for(int i = 1; i < employees.size(); i++){
-            save.println(";");
+        for(int i = 0; i < employees.size(); i++){
             save.print(employees.get(i).toStringFileFormat());
+            save.println(";");
         }
     }
 }
